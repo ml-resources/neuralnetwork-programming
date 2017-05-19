@@ -1,6 +1,9 @@
 # Implementation of a simple MLP network with one hidden layer. Tested on the iris data set.
 # Requires: numpy, sklearn>=0.18.1, tensorflow>=1.0
 
+# NOTE: In order to make the code simple, we rewrite x * W_1 + b_1 = x' * W_1'
+# where x' = [x | 1] and W_1' is the matrix W_1 appended with a new row with elements b_1's.
+# Similarly, for h * W_2 + b_2
 import tensorflow as tf
 import numpy as np
 from sklearn import datasets
@@ -18,16 +21,22 @@ def init_weights(shape):
 def forwardprop(X, w_1, w_2):
     """
     Forward-propagation.
+    IMPORTANT: yhat is not softmax since TensorFlow's softmax_cross_entropy_with_logits() does that internally.
     """
-    h = tf.nn.sigmoid(tf.matmul(X, w_1))  # The \sigma function
+    h    = tf.nn.sigmoid(tf.matmul(X, w_1))  # The \sigma function
     y = tf.matmul(h, w_2)  # The \varphi function
     return y
 
 def get_iris_data():
     """ Read the iris data set and split them into training and test sets """
-    iris   = datasets.load_iris()
-    data   = iris["data"]
-    target = iris["target"]
+    #iris   = datasets.load_iris()
+    from numpy import genfromtxt
+    data = genfromtxt('iris.csv', delimiter=',')
+    #data   = iris["data"]
+    #np.savetxt("foo.csv", data, delimiter=",")
+    #target = iris["target"]
+    #np.savetxt("target.csv", target, delimiter=",")
+    target = genfromtxt('target.csv', delimiter=',').astype(int)
 
     # Prepend the column of 1s for bias
     N, M  = data.shape
@@ -57,9 +66,11 @@ def main():
 
     # Forward propagation
     yhat    = forwardprop(X, w_1, w_2)
+    print(yhat)
     predict = tf.argmax(yhat, dimension=1)
 
     # Backward propagation
+
     cost    = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y, logits=yhat))
     updates = tf.train.GradientDescentOptimizer(0.01).minimize(cost)
 
