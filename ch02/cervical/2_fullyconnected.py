@@ -1,31 +1,10 @@
 
-# coding: utf-8
-
-# Deep Learning
-# =============
-# 
-# Assignment 2
-# ------------
-# 
-# Previously in `1_notmnist.ipynb`, we created a pickle with formatted datasets for training, development and testing on the [notMNIST dataset](http://yaroslavvb.blogspot.com/2011/09/notmnist-dataset.html).
-# 
-# The goal of this assignment is to progressively train deeper and more accurate models using TensorFlow.
-
-# In[1]:
-
-
-# These are all the modules we'll be using later. Make sure you can import them
-# before proceeding further.
 from __future__ import print_function
 import numpy as np
 import tensorflow as tf
 from six.moves import cPickle as pickle
 from six.moves import range
 
-
-# First reload the data we generated in `1_notmnist.ipynb`.
-
-# In[2]:
 
 
 pickle_file = './cervical.pickle'
@@ -44,13 +23,6 @@ with open(pickle_file, 'rb') as f:
   print('Test set', test_dataset.shape, test_labels.shape)
 
 
-# Reformat into a shape that's more adapted to the models we're going to train:
-# - data as a flat matrix,
-# - labels as float 1-hot encodings.
-
-# In[3]:
-
-
 image_size = 28
 num_labels = 3
 
@@ -67,26 +39,6 @@ print('Validation set', valid_dataset.shape, valid_labels.shape)
 print('Test set', test_dataset.shape, test_labels.shape)
 
 
-# We're first going to train a multinomial logistic regression using simple gradient descent.
-# 
-# TensorFlow works like this:
-# * First you describe the computation that you want to see performed: what the inputs, the variables, and the operations look like. These get created as nodes over a computation graph. This description is all contained within the block below:
-# 
-#       with graph.as_default():
-#           ...
-# 
-# * Then you can run the operations on this graph as many times as you want by calling `session.run()`, providing it outputs to fetch from the graph that get returned. This runtime operation is all contained in the block below:
-# 
-#       with tf.Session(graph=graph) as session:
-#           ...
-# 
-# Let's load all the data into TensorFlow and build the computation graph corresponding to our training:
-
-# In[4]:
-
-
-# With gradient descent training, even this much data is prohibitive.
-# Subset the training data for faster turnaround.
 train_subset = 50
 
 graph = tf.Graph()
@@ -129,13 +81,6 @@ with graph.as_default():
     tf.matmul(tf_valid_dataset, weights) + biases)
   test_prediction = tf.nn.softmax(tf.matmul(tf_test_dataset, weights) + biases)
 
-
-# Let's run this computation and iterate:
-
-# In[5]:
-
-
-#num_steps = 801
 num_steps = 10
 
 def accuracy(predictions, labels):
@@ -166,20 +111,12 @@ with tf.Session(graph=graph) as session:
 
 
 # Let's now switch to stochastic gradient descent training instead, which is much faster.
-# 
-# The graph will be similar, except that instead of holding all the training data into a constant node, we create a `Placeholder` node which will be fed actual data at every call of `session.run()`.
 
-# In[6]:
-
-
-#batch_size = 128
 batch_size = 25
 
 graph = tf.Graph()
 with graph.as_default():
 
-  # Input data. For the training data, we use a placeholder that will be fed
-  # at run time with a training minibatch.
   tf_train_dataset = tf.placeholder(tf.float32,
                                     shape=(batch_size, image_size * image_size))
   tf_train_labels = tf.placeholder(tf.float32, shape=(batch_size, num_labels))
@@ -206,12 +143,6 @@ with graph.as_default():
   test_prediction = tf.nn.softmax(tf.matmul(tf_test_dataset, weights) + biases)
 
 
-# Let's run it:
-
-# In[7]:
-
-
-#num_steps = 3001
 num_steps = 10
 
 with tf.Session(graph=graph) as session:
@@ -236,12 +167,3 @@ with tf.Session(graph=graph) as session:
       print("Validation accuracy: %.1f%%" % accuracy(
         valid_prediction.eval(), valid_labels))
   print("Test accuracy: %.1f%%" % accuracy(test_prediction.eval(), test_labels))
-
-
-# ---
-# Problem
-# -------
-# 
-# Turn the logistic regression example with SGD into a 1-hidden layer neural network with rectified linear units [nn.relu()](https://www.tensorflow.org/versions/r0.7/api_docs/python/nn.html#relu) and 1024 hidden nodes. This model should improve your validation / test accuracy.
-# 
-# ---
