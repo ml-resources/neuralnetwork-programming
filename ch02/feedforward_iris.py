@@ -35,13 +35,11 @@ def run(h_size, stddev, sgd_step):
 
     # Size of Layers
     x_size = train_x.shape[1]  # Input nodes: 4 features and 1 bias
-    h_size = 256  # Number of hidden nodes
     y_size = train_y.shape[1]  # Outcomes (3 iris flowers)
 
     # variables
     X = tf.placeholder("float", shape=[None, x_size])
     y = tf.placeholder("float", shape=[None, y_size])
-    stddev = stddev
     weights_1 = initialize_weights((x_size, h_size), stddev)
     weights_2 = initialize_weights((h_size, y_size), stddev)
 
