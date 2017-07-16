@@ -4,10 +4,12 @@ import numpy as np
 X = tf.Variable(np.random.random_sample(), dtype=tf.float32)
 y = tf.Variable(np.random.random_sample(), dtype=tf.float32)
 
+
 def createCons(x):
     return tf.constant(x, dtype=tf.float32)
 
 function = tf.pow(X, createCons(2)) + createCons(2) * X * y + createCons(3) * tf.pow(y, createCons(2)) + createCons(4) * X + createCons(5) * y + createCons(6)
+
 
 # compute hessian
 def hessian(func, varbles):

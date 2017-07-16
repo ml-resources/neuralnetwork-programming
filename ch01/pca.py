@@ -1,10 +1,5 @@
 import numpy as np
 import tensorflow as tf
-import matplotlib.pyplot as plt
-import plotly.plotly as py
-import plotly.graph_objs as go
-import plotly.figure_factory as FF
-import pandas as pd
 
 path = "/Users/manpreet.singh/Sandbox/codehub/github/science/neuralnetwork-programming/ch01/plots"
 logs = "/Users/manpreet.singh/Sandbox/codehub/github/science/neuralnetwork-programming/ch01/logs"
@@ -17,6 +12,7 @@ xMatrix = np.array([[0,2,1,0,0,0,0,0],
               [0,1,0,0,0,0,0,1],
               [0,0,1,0,0,0,0,1],
               [0,0,0,0,1,1,1,0]], dtype=np.float32)
+
 
 def pca(mat):
     mat = tf.constant(mat, dtype=tf.float32)

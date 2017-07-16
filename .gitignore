@@ -1,0 +1,12 @@
+.DS_Store
+*.crc
+*.*~
+target
+*.idea
+derby.log
+*.png
+*.Rhistory
+*.log
+*.pyc
+*.xml
+.idea

@@ -15,6 +15,7 @@ b1 = tf.Variable(tf.truncated_normal([1, numNeuronsInDeepLayer]))
 w2 = tf.Variable(tf.truncated_normal([numNeuronsInDeepLayer, 10]))
 b2 = tf.Variable(tf.truncated_normal([1, 10]))
 
+
 # non-linear sigmoid function at each neuron
 def sigmoid(x):
     sigma = tf.div(tf.constant(1.0), tf.add(tf.constant(1.0), tf.exp(tf.negative(x))))
@@ -28,6 +29,7 @@ a2 = sigmoid(z2)
 
 # calculate the loss (delta)
 loss = tf.subtract(a2, y)
+
 
 # derivative of the sigmoid function der(sigmoid)=sigmoid*(1-sigmoid)
 def sigmaprime(x):
