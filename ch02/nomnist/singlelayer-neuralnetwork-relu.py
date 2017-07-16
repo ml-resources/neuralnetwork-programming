@@ -1,9 +1,10 @@
-
 import cPickle as pickle
+
 import numpy as np
 import tensorflow as tf
-from util import accuracy
 
+from ch02.util.matplot_util import draw_plot
+from util import accuracy
 
 pickle_file = 'notMNIST.pickle'
 
@@ -77,8 +78,11 @@ def main():
         test_prediction = tf.nn.softmax(
             tf.matmul(tf.nn.relu(tf.matmul(tf_test_dataset, w1) + b1), w2) + b2)
 
-    num_steps = 3001
-
+    num_steps = 101
+    x = np.arange(num_steps)
+    #x = []
+    minibatch_acc = []
+    validation_acc = []
     with tf.Session(graph=graph) as session:
         tf.initialize_all_variables().run()
         print("Initialized")
@@ -92,12 +96,25 @@ def main():
             feed_dict = {tf_train_dataset: batch_data, tf_train_labels: batch_labels}
             _, l, predictions = session.run(
                 [optimizer, loss, train_prediction], feed_dict=feed_dict)
-            if (step % 500 == 0):
+            minibatch_accuracy = accuracy(predictions, batch_labels)
+            validation_accuracy = accuracy(
+                valid_prediction.eval(), valid_labels)
+
+            if (step % 10 == 0):
+
                 print("Minibatch loss at step", step, ":", l)
                 print("Minibatch accuracy: %.1f%%" % accuracy(predictions, batch_labels))
-                print("Validation accuracy: %.1f%%" % accuracy(
-                    valid_prediction.eval(), valid_labels))
+                print("Validation accuracy: %.1f%%" % validation_accuracy)
+            minibatch_acc.append( minibatch_accuracy)
+            validation_acc.append( validation_accuracy)
+
+            t = [np.array(minibatch_acc)]
+            t.append(validation_acc)
+
         print("Test accuracy: %.1f%%" % accuracy(test_prediction.eval(), test_labels))
+        title = "NotMNIST DataSet - Single Hidden Layer - 1024 neurons Activation function: RELU"
+        label = ['Minibatch Accuracy', 'Validation Accuracy']
+        draw_plot(x, t, title, label)
 
 if __name__ == '__main__':
   main()
