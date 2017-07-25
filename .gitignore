@@ -10,3 +10,4 @@ derby.log
 *.pyc
 *.xml
 .idea
+ch05/sentiment-analysis/checkpoints/*.*
