@@ -89,6 +89,22 @@ class BasicAutoEncoder:
         plt.savefig('figures/basic_autoencoder_images.png')
         plt.show()
 
+        original_imgs = X_test[:100]
+        plt.figure(1, figsize=(10, 10))
+
+        for i in range(0, 100):
+            im = original_imgs[i].reshape((28, 28))
+            ax = plt.subplot(10, 10, i + 1)
+            for label in (ax.get_xticklabels() + ax.get_yticklabels()):
+                #label.set_fontname('Arial')
+                label.set_fontsize(8)
+
+            plt.imshow(im, cmap="gray", clim=(0.0, 1.0))
+        plt.suptitle(' Original Images', fontsize=15, y=0.95)
+        plt.savefig('figures/original_images.png')
+        plt.show()
+
+
 def main():
     auto = BasicAutoEncoder()
     auto.main()
