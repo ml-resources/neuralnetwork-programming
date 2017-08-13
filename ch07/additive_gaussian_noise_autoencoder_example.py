@@ -51,18 +51,18 @@ class AdditiveGaussianNoiseAutoEncoderExample:
         print("Total cost: " + str(autoencoder.calc_total_cost(X_test)))
 
         # input weights
-        wts = autoencoder.getWeights()
-        dim = math.ceil(math.sqrt(autoencoder.n_hidden))
+        wts = autoencoder.get_weights()
+        dim = math.ceil(math.sqrt(autoencoder.num_hidden))
         plt.figure(1, figsize=(dim, dim))
-        for i in range(0, autoencoder.n_hidden):
-            im = wts.flatten()[i::autoencoder.n_hidden].reshape((28, 28))
+        for i in range(0, autoencoder.num_hidden):
+            im = wts.flatten()[i::autoencoder.num_hidden].reshape((28, 28))
             ax = plt.subplot(dim, dim, i + 1)
             for label in (ax.get_xticklabels() + ax.get_yticklabels()):
-                label.set_fontname('Arial')
                 label.set_fontsize(8)
             #plt.title('Feature Weights ' + str(i))
-            plt.imshow(im, cmap="gray", clim=(-1.0, 1.0))
 
+            plt.imshow(im, cmap="gray", clim=(-1.0, 1.0))
+        plt.suptitle('Additive Gaussian Noise AutoEncoder Weights', fontsize=15, y=0.95)
         plt.savefig('figures/additive_gaussian_weights.png')
         plt.show()
 
@@ -80,6 +80,7 @@ class AdditiveGaussianNoiseAutoEncoderExample:
                 label.set_fontsize(8)
 
             plt.imshow(im, cmap="gray", clim=(0.0, 1.0))
+        plt.suptitle('Additive Gaussian Noise AutoEncoder Images', fontsize=15, y=0.95)
         plt.savefig('figures/additive_gaussian_images.png')
         plt.show()
 
