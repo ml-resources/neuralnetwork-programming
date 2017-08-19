@@ -21,7 +21,8 @@ class AdditiveGaussianNoiseAutoEncoder(object):
 
         # model
         self.x = tf.placeholder(tf.float32, [None, self.num_input])
-        self.hidden_layer = self.transfer(tf.add(tf.matmul(self.x + scale * tf.random_normal((n_input,)),
+
+        self.hidden_layer = self.transfer(tf.add(tf.matmul(self.x + scale * tf.random_normal((num_input,)),
                                                            self.weights['w1']),
                                                  self.weights['b1']))
         self.reconstruction = tf.add(tf.matmul(self.hidden_layer, self.weights['w2']), self.weights['b2'])
@@ -74,6 +75,7 @@ class AdditiveGaussianNoiseAutoEncoder(object):
 
     def get_weights(self):
         return self.session.run(self.weights['w1'])
+
 
     def get_biases(self):
         return self.session.run(self.weights['b1'])
