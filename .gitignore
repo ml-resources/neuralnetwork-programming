@@ -11,3 +11,7 @@ derby.log
 *.xml
 .idea
 ch05/sentiment-analysis/checkpoints/*.*
+ch06/txt2img/*.*
+ch06/logs/*.*
+ch06/data/*.*
+
