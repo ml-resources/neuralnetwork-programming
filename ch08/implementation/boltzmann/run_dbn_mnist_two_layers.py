@@ -14,24 +14,23 @@ if __name__ == '__main__':
     trainX, trainY, validX, validY, testX, testY = datasets.load_mnist_dataset(mode='supervised')
 
     finetune_act_func = tf.nn.relu
-    rbm_layers = [256]
     do_pretrain = True
 
 
 
     name = 'dbn'
-    rbm_layers = [128]
+    rbm_layers = [256, 256]
     finetune_act_func ='relu'
     do_pretrain = True
 
-    rbm_learning_rate = [0.001]
+    rbm_learning_rate = [0.001, 0001]
 
-    rbm_num_epochs = [5]
-    rbm_gibbs_k= [1]
+    rbm_num_epochs = [5, 5]
+    rbm_gibbs_k= [1, 1]
     rbm_stddev= 0.1
     rbm_gauss_visible= False
     momentum= 0.5
-    rbm_batch_size= [32]
+    rbm_batch_size= [32, 32]
     finetune_learning_rate = 0.01
     finetune_num_epochs = 1
     finetune_batch_size = 32

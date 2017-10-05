@@ -141,10 +141,10 @@ class RBM(UnsupervisedModel):
         self.w_upd8 = self.W.assign_add(
             self.learning_rate * (positive - negative) / self.batch_size)
 
-        self.bh_upd8 = self.bh_.assign_add(tf.multiply(self.learning_rate, tf.reduce_mean(
+        self.bh_upd8 = self.bh_.assign_add(tf.multiply(float(self.learning_rate), tf.reduce_mean(
             tf.subtract(hprob0, hprob1), 0)))
 
-        self.bv_upd8 = self.bv_.assign_add(tf.multiply(self.learning_rate, tf.reduce_mean(
+        self.bv_upd8 = self.bv_.assign_add(tf.multiply(tf.cast(self.learning_rate, tf.float32), tf.reduce_mean(
             tf.subtract(self.input_data, vprob), 0)))
 
         variables = [self.W, self.bh_, self.bv_]
