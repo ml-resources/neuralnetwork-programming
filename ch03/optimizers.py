@@ -30,7 +30,7 @@ linearModel = tf.add(tf.multiply(X, W), b)
 loss = tf.reduce_sum(tf.pow(linearModel-Y, 2))/(2*nSamples)
 
 # Gradient descent
-opt = tf.train.GradientDescentOptimizer(learningRate).minimize(loss)
+opt = tf.train.AdamOptimizer(learningRate).minimize(loss)
 
 # initializing variables
 init = tf.global_variables_initializer()
