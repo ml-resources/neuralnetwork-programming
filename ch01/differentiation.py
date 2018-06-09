@@ -36,6 +36,7 @@ def sigmaprime(x):
     return tf.multiply(sigmoid(x), tf.subtract(tf.constant(1.0), sigmoid(x)))
 
 # backward propagation
+# TODO: Add picture here of backprop
 dz2 = tf.multiply(loss, sigmaprime(z2))
 db2 = dz2
 dw2 = tf.matmul(tf.transpose(a1), dz2)
